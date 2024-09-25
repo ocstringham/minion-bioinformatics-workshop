@@ -1,0 +1,2 @@
+# minion-bioinformatics-workshop
+ 
