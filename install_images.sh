@@ -5,7 +5,7 @@ singularity build images/seqkit.sif docker://nanozoo/seqkit:2.6.1--022e008
 singularity build images/cutadapt.sif docker://olistr12/cutadapt:4.9
 singularity build images/porechop.sif docker://biocontainers/porechop:v0.2.4dfsg-1-deb_cv1
 singularity build images/vsearch.sif docker://olistr12/vsearch:2.28.1
-singularity build images/r_env.sif docker://olistr12/r_env:0.0.6
+singularity build images/r_env.sif docker://olistr12/r_env:0.0.7
 singularity build images/bbmap.sif docker://nanozoo/bbmap:38.86--9ebcbfa
 singularity build images/blast.sif docker://ncbi/blast:2.16.0
 

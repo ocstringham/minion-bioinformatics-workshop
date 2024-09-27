@@ -53,8 +53,8 @@
 docker build -t r_env -f docker/r_env.Dockerfile .
 docker run -it --name r-test r_env
 docker login --username=olistr12 docker.io
-docker image tag r_env olistr12/r_env:0.0.6
-docker push olistr12/r_env:0.0.6
+docker image tag r_env olistr12/r_env:0.0.7
+docker push olistr12/r_env:0.0.7
 
 
 ## vsearch
