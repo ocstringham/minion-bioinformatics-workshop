@@ -92,9 +92,11 @@ parse_primer_for_cutadapt = function(fasta_file){
 # Construct Cutadapt command function
 construct_cutadapt <- function(input_file, output_file, 
                          adapter_type, adapter_sequence, 
-                         n_cores, cutadapt_error_rate, os) {
+                         n_cores, cutadapt_error_rate #, os
+                         ) {
   cutadapt_command <- paste(
-    ifelse(os =="linux", "singularity exec images/cutadapt.sif", ifelse(os=="mac", "cutadapt", "")),
+    # ifelse(os =="linux", "singularity exec images/cutadapt.sif", ifelse(os=="mac", "cutadapt", "")),
+    "cutadapt",                  # Cutadapt command
     adapter_type, adapter_sequence,   # Adapter sequence to trim
     "--cores",  n_cores,            # Number of cores to use
     "-e ", cutadapt_error_rate,  # Error rate
@@ -113,7 +115,8 @@ construct_cutadapt <- function(input_file, output_file,
 # construct all cutadapt commands & run them & cat the output into linked and unlinked
 run_cutadapt = function(input_file, fasta_file,
                        output_path_linked, output_path_unlinked,
-                       n_cores, cutadapt_error_rate, os){
+                       n_cores, cutadapt_error_rate #, os
+                       ){
   
   # parse primer file
   primer_df = parse_primer_for_cutadapt(fasta_file)
@@ -134,8 +137,9 @@ run_cutadapt = function(input_file, fasta_file,
                       adapter_type = primer_df$cutadapt_param[i], 
                       adapter_sequence = primer_df$cutadapt_seq[i], 
                       n_cores = n_cores, 
-                      cutadapt_error_rate = cutadapt_error_rate,
-                      os = os)
+                      cutadapt_error_rate = cutadapt_error_rate #,
+                      # os = os
+                      )
   }  
   
   # echo number of cutadapt commands and what they are
@@ -179,7 +183,7 @@ parser$add_argument("--output_path_linked", type = "character", help = "output p
 parser$add_argument("--output_path_unlinked", type = "character", help = "output path for unlinked primers")
 parser$add_argument("--cutadapt_error_rate", type = "numeric", help = "error rate for cutadapt")
 parser$add_argument("--n_cores", type = "numeric", help = "number of cores to use")
-parser$add_argument("--os", type = "character", help = "operating system, linux or mac")
+# parser$add_argument("--os", type = "character", help = "operating system, linux or mac")
 
 
 # Parse the command line arguments
@@ -193,6 +197,7 @@ run_cutadapt(input_file = args$input_file,
              output_path_linked = args$output_path_linked, 
              output_path_unlinked = args$output_path_unlinked,
              n_cores = args$n_cores, 
-             cutadapt_error_rate = args$cutadapt_error_rate,
-             os = args$os)
+             cutadapt_error_rate = args$cutadapt_error_rate #,
+            #  os = args$os
+             )
 
