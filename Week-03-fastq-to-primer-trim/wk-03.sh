@@ -116,8 +116,7 @@ Rscript scripts/run_cutadapt_CL.R \
 --output_path_linked data/florida_cf/barcodes-04-10.q10.mifish_linked.fastq \
 --output_path_unlinked data/florida_cf/barcodes-04-10.q10.mifish_unlinked.fastq \
 --cutadapt_error_rate 0.2 \
---n_cores 4 \
---os "linux"
+--n_cores 4
 
 
 
