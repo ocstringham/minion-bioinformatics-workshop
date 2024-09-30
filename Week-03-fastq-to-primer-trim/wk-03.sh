@@ -49,7 +49,10 @@ seqkit stats data/florida_cf/barcodes-04-10.q10.l300.L400.fastq
 
 # cutadapt 
 
-## first linked
+## before using many cpu cores/ram, check cluster resources
+htop
+
+## linked primer #1
 singularity exec images/cutadapt.sif \
 cutadapt -g GTCGGTAAAACTCGTGCCAGC...CAAACTGGGATTAGATACCCCACTATG \
 --cores 4 -e 0.2 --no-indels --discard-untrimmed \
@@ -72,7 +75,7 @@ Rscript scripts/process_read_distribs_CL.R \
 --hmin=163 --hmax=185
 
 
-## second linked
+## linked primer #2
 singularity exec images/cutadapt.sif \
 cutadapt -g CATAGTGGGGTATCTAATCCCAGTTTG...GCTGGCACGAGTTTTACCGAC \
 --cores 4 -e 0.2 --no-indels --discard-untrimmed \
