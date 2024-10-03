@@ -13,7 +13,7 @@ singularity exec images/seqkit.sif \
 seqkit rmdup data/florida_cf/barcodes-04-10.q10.mifish_linked.fastq > \
 data/florida_cf/barcodes-04-10.q10.mifish_linked.dd.fastq
 
-## get IDs of linked reads
+## get IDs of linked reads (needed to subset)
 awk 'NR%4==1 {sub(/^@/, "", $1); print $1}' \
 data/florida_cf/barcodes-04-10.q10.mifish_linked.dd.fastq > \
 data/florida_cf/barcodes-04-10.q10.mifish_linked.dd.ids.txt
@@ -67,11 +67,15 @@ singularity exec images/seqkit.sif \
 seqkit fq2fa data/florida_cf/barcodes-04-10.q10.mifish_linked_unlinked.dd.fastq \
 -o data/florida_cf/barcodes-04-10.q10.mifish_linked_unlinked.dd.fasta
 
+head data/florida_cf/barcodes-04-10.q10.mifish_linked_unlinked.dd.fasta
+
 ## tabulate
 ### Drop attributes except barcode
-awk '/^>/ {split($0, a, " "); printf("%s", a[1]); for (i=2; i<=length(a); i++) { if (match(a[i], /^barcode=|^start_time=/)) printf(" %s", a[i]); } printf("\n"); next} {print}' \
+awk '/^>/ {split($0, a, " "); printf("%s", a[1]); for (i=2; i<=length(a); i++) { if (match(a[i], /^barcode=/)) printf(" %s", a[i]); } printf("\n"); next} {print}' \
 data/florida_cf/barcodes-04-10.q10.mifish_linked_unlinked.dd.fasta > \
 data/florida_cf/barcodes-04-10.q10.mifish_linked_unlinked.dd.att.fasta
+
+head data/florida_cf/barcodes-04-10.q10.mifish_linked_unlinked.dd.att.fasta
 
 ### tabulate (we'll need this later)
 singularity exec images/seqkit.sif \
@@ -95,6 +99,16 @@ vsearch --threads 4 \
 --consout data/florida_cf/vsearch/barcodes-04-10.q10.mifish_linked_unlinked.dd.con.fasta \
 --uc data/florida_cf/vsearch/barcodes-04-10.q10.mifish_linked_unlinked.dd.clusters.uc
 
+head data/florida_cf/vsearch/barcodes-04-10.q10.mifish_linked_unlinked.dd.con.fasta
+sungularity exec images/seqkit.sif \
+seqkit stats data/florida_cf/vsearch/barcodes-04-10.q10.mifish_linked_unlinked.dd.con.fasta
+
+
+## get distribution of the number of reads in each cluster
+grep -oP 'seqs=\K[0-9]+' \
+data/florida_cf/vsearch/barcodes-04-10.q10.mifish_linked_unlinked.dd.con.fasta \
+| sort -n | uniq -c
+
 
 ## rm clusters with less than 5 reads
 singularity exec images/seqkit.sif \
@@ -102,9 +116,26 @@ seqkit grep -r -n -p 'seqs=([6-9]|[1-9]\d+)$' \
 data/florida_cf/vsearch/barcodes-04-10.q10.mifish_linked_unlinked.dd.con.fasta \
 -o data/florida_cf/vsearch/barcodes-04-10.q10.mifish_linked_unlinked.dd.con.sub.fasta
 
-### tabulate
+singularity exec images/seqkit.sif \
+seqkit stats data/florida_cf/vsearch/barcodes-04-10.q10.mifish_linked_unlinked.dd.con.sub.fasta
 
-### process tab file to only include centroid and sequence (no headers)
+
+### tabulate
+singularity exec images/seqkit.sif \
+seqkit fx2tab -l data/florida_cf/vsearch/barcodes-04-10.q10.mifish_linked_unlinked.dd.con.sub.fasta \
+-o data/florida_cf/vsearch/barcodes-04-10.q10.mifish_linked_unlinked.dd.con.sub.txt
+
+head data/florida_cf/vsearch/barcodes-04-10.q10.mifish_linked_unlinked.dd.con.sub.txt
+
+
+### process tab file to only include con and sequence (no other header info)
+tr ';' '\t' < \
+data/florida_cf/vsearch/barcodes-04-10.q10.mifish_linked_unlinked.dd.con.sub.txt | \
+sed 's/^centroid=//' | \
+awk -F'\t' '{OFS="\t"; print $1, $3}' > \
+data/florida_cf/vsearch/barcodes-04-10.q10.mifish_linked_unlinked.dd.con.sub2.txt
+
+head data/florida_cf/vsearch/barcodes-04-10.q10.mifish_linked_unlinked.dd.con.sub2.txt
 
 
 
