@@ -22,11 +22,11 @@ echo $SINGULARITY_TMPDIR
 
 
 
-# instructions for using singularity on Amarel
+# # instructions for using singularity on Amarel
 
-## start interactive shell session (can customize resources)
-srun -p main -N 1 -c 2 -n 1 --mem 10GB -t 05:00:00 --pty /bin/bash
+# ## start interactive shell session (can customize resources)
+# srun -p main -N 1 -c 2 -n 1 --mem 10GB -t 05:00:00 --pty /bin/bash
 
-## load singularity module
-module purge
-module load singularity/3.1.0
+# ## load singularity module
+# module purge
+# module load singularity/3.1.0
