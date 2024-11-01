@@ -8,6 +8,7 @@ singularity build images/vsearch.sif docker://olistr12/vsearch:2.28.1
 singularity build images/r_env.sif docker://olistr12/r_env:0.0.7
 singularity build images/bbmap.sif docker://nanozoo/bbmap:38.86--9ebcbfa
 singularity build images/blast.sif docker://ncbi/blast:2.16.0
+singularity build images/bioinformatics.sif docker://olistr12/bioinformatics:0.0.1 # note only use for vsearch so should just call it vsearch
 
 
 # notes if you get error that not enough space to install image
