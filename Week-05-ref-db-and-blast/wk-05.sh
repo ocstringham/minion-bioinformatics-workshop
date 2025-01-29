@@ -36,8 +36,9 @@ cd blastdb/dir
 singularity exec images/blast.sif \
 blastn -db midori_eukaryota_2021_02_25 \
 -query ../../data/florida_cf/barcodes-04-10.q10.mifish_linked_unlinked.dd.att.fasta \
--outfmt 6 \
--out ../../data/florida_cf/barcodes-04-10.q10.mifish_linked_unlinked.dd.att.blastn.txt \
+-outfmt "6 delim=, std qlen slen staxids sscinames scomnames sskingdoms" \
+-max_target_seqs 50 
+-out ../../data/florida_cf/barcodes-04-10.q10.mifish_linked_unlinked.dd.att.blastn.csv \
 -num_threads 8
 
 # look at the blast output
