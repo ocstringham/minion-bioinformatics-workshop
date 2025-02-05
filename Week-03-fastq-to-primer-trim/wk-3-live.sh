@@ -34,27 +34,33 @@ data/florida_cf/barcodes-04-10.q10.l300.L400.fastq
 singularity exec images/seqkit.sif \
 seqkit stats data/florida_cf/barcodes-04-10.q10.l300.L400.fastq
 
+singularity exec images/bbmap.sif \
+readlength.sh \
+in=data/florida_cf/barcodes-04-10.q10.l300.L400.fastq \
+out=data/florida_cf/barcodes-04-10.q10.l300.L400.readlength.txt
 
+singularity exec images/r_env.sif \
+Rscript scripts/process_read_distribs_CL.R \
+--distrib_file=data/florida_cf/barcodes-04-10.q10.l300.L400.readlength.txt \
+--output_file=data/florida_cf/barcodes-04-10.q10.l300.L400.readlength.png \
+--hmin=300 --hmax=400
 
-# For 
+singularity exec images/cutadapt.sif \
+cutadapt -g GTCGGTAAAACTCGTGCCAGC...CAAACTGGGATTAGATACCCCACTATG \
+--cores 4 -e 0.2 --no-indels --discard-untrimmed \
+data/florida_cf/barcodes-04-10.q10.l300.L400.fastq > \
+data/florida_cf/barcodes-04-10.q10.l300.L400.mifish_linked_1.fastq
 
-# sign into annotate2
-wget https://cdn.oxfordnanoportal.com/software/analysis/dorado-0.8.0-linux-x64.tar.gz
-tar -xvzf dorado-0.8.0-linux-x64.tar.gz
+singularity exec images/seqkit.sif \
+seqkit stats data/florida_cf/barcodes-04-10.q10.l300.L400.mifish_linked_1.fastq 
 
-dorado-0.8.0-linux-x64/bin/dorado basecaller --help
+singularity exec images/bbmap.sif \
+readlength.sh \
+in=data/florida_cf/barcodes-04-10.q10.l300.L400.mifish_linked_1.fastq \
+out=data/florida_cf/barcodes-04-10.q10.l300.L400.mifish_linked_1.readlength.txt
 
-# call hac basecaller exported as bam to preserve attributes of reads, including barcode
-dorado-0.8.0-linux-x64/bin/dorado/bin/dorado basecaller --no-trim --recursive hac \
-data/Florida_CF/pod5_pass/ > \
-data/Florida_CF/basecalled/calls_hac.bam
-
-# use sam tools to convert to fastq format with attributes
-# you'll need to install samtools.sif (check docker hub)
-singularity exec images/samtools.sif \
-samtools fastq -T '*' \
-data/SLAM/basecalled/calls_hac.bam > \
-data/SLAM/basecalled/calls_hac.fastq
-
-head data/SLAM/basecalled/calls_hac.fastq
-tail data/SLAM/basecalled/calls_hac.fastq
+singularity exec images/r_env.sif \
+Rscript scripts/process_read_distribs_CL.R \
+--distrib_file=data/florida_cf/barcodes-04-10.q10.l300.L400.mifish_linked_1.readlength.txt \
+--output_file=data/florida_cf/barcodes-04-10.q10.l300.L400.mifish_linked_1.readlength.png \
+--hmin=160 --hmax=185
