@@ -56,22 +56,22 @@ htop
 singularity exec images/cutadapt.sif \
 cutadapt -g GTCGGTAAAACTCGTGCCAGC...CAAACTGGGATTAGATACCCCACTATG \
 --cores 4 -e 0.2 --no-indels --discard-untrimmed \
-data/florida_cf/barcodes-04-10.q10.fastq > \
-data/florida_cf/barcodes-04-10.q10.mifish_linked_1.fastq
+data/florida_cf/barcodes-04-10.q10.l300.L400.fastq > \
+data/florida_cf/barcodes-04-10.q10.l300.L400.mifish_linked_1.fastq
 
 ### check stats and length distrib
 singularity exec images/seqkit.sif \
-seqkit stats data/florida_cf/barcodes-04-10.q10.mifish_linked_1.fastq
+seqkit stats data/florida_cf/barcodes-04-10.q10.l300.L400.mifish_linked_1.fastq
 
 singularity exec images/bbmap.sif \
 readlength.sh \
-data/florida_cf/barcodes-04-10.q10.mifish_linked_1.fastq \
-out=data/florida_cf/barcodes-04-10.q10.mifish_linked_1.txt
+data/florida_cf/barcodes-04-10.q10.l300.L400.mifish_linked_1.fastq \
+out=data/florida_cf/barcodes-04-10.q10.l300.L400.mifish_linked_1.txt
 
 singularity exec images/r_env.sif \
 Rscript scripts/process_read_distribs_CL.R \
---distrib_file=data/florida_cf/barcodes-04-10.q10.mifish_linked_1.txt \
---output_file=data/florida_cf/barcodes-04-10.q10.mifish_linked_1.png \
+--distrib_file=data/florida_cf/barcodes-04-10.q10.l300.L400.mifish_linked_1.txt \
+--output_file=data/florida_cf/barcodes-04-10.q10.l300.L400.mifish_linked_1.png \
 --hmin=163 --hmax=185
 
 
@@ -79,8 +79,8 @@ Rscript scripts/process_read_distribs_CL.R \
 singularity exec images/cutadapt.sif \
 cutadapt -g CATAGTGGGGTATCTAATCCCAGTTTG...GCTGGCACGAGTTTTACCGAC \
 --cores 4 -e 0.2 --no-indels --discard-untrimmed \
-data/florida_cf/barcodes-04-10.q10.fastq > \
-data/florida_cf/barcodes-04-10.q10.mifish_linked_2.fastq
+data/florida_cf/barcodes-04-10.q10.l300.L400.fastq > \
+data/florida_cf/barcodes-04-10.q10.l300.L400.mifish_linked_2.fastq
 
 
 ## unlinked #1
@@ -101,23 +101,26 @@ data/florida_cf/barcodes-04-10.q10.mifish_linked_2.fastq
 # combine linked and unlinked reads
 
 ## linked
-cat data/florida_cf/barcodes-04-10.q10.mifish_linked_1.fastq data/florida_cf/barcodes-04-10.q10.mifish_linked_2.fastq > \
-data/florida_cf/barcodes-04-10.q10.mifish_linked.fastq
+cat data/florida_cf/barcodes-04-10.q10.l300.L400.mifish_linked_1.fastq \
+data/florida_cf/barcodes-04-10.q10.l300.L400.mifish_linked_2.fastq > \
+data/florida_cf/barcodes-04-10.q10.l300.L400.mifish_linked_all.fastq
 
 ## unlinked
-cat data/florida_cf/barcodes-04-10.q10.mifish_unlinked_1.fastq data/florida_cf/barcodes-04-10.q10.mifish_unlinked_2.fastq \
-data/florida_cf/barcodes-04-10.q10.mifish_unlinked_3.fastq data/florida_cf/barcodes-04-10.q10.mifish_unlinked_4.fastq > \
-data/florida_cf/barcodes-04-10.q10.mifish_unlinked.fastq
+cat data/florida_cf/barcodes-04-10.q10.l300.L400.mifish_unlinked_1.fastq \
+data/florida_cf/barcodes-04-10.q10.l300.L400.mifish_unlinked_2.fastq \
+data/florida_cf/barcodes-04-10.q10.l300.L400.mifish_unlinked_3.fastq \
+data/florida_cf/barcodes-04-10.q10.l300.L400.mifish_unlinked_4.fastq > \
+data/florida_cf/barcodes-04-10.q10.l300.L400.mifish_unlinked_all.fastq
 
 
 
 # Cutadapt automated
 singularity exec images/r_env.sif \
 Rscript scripts/run_cutadapt_CL.R \
---input_file data/florida_cf/barcodes-04-10.q10.fastq \
+--input_file data/florida_cf/barcodes-04-10.q10.l300.L400.fastq \
 --primer_fasta data/primers/mifish_primer.fasta \
---output_path_linked data/florida_cf/barcodes-04-10.q10.mifish_linked.fastq \
---output_path_unlinked data/florida_cf/barcodes-04-10.q10.mifish_unlinked.fastq \
+--output_path_linked data/florida_cf/barcodes-04-10.q10.l300.L400.mifish_linked_all_v2.fastq \
+--output_path_unlinked data/florida_cf/barcodes-04-10.q10.l300.L400.mifish_unlinked_all_v2.fastq \
 --cutadapt_error_rate 0.2 \
 --n_cores 4
 
