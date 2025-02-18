@@ -1,10 +1,8 @@
 
-
-
-# Make quick reference database for Florida fishes
+# Make "quick" reference database for Florida fishes
 
 ## Get list of Fishes in Florida from GBIF
-## I will show you how to do this and will include the csv here
+## I will show you how to do this and will include the csv/txt here
 
 ## Download & unzip MIDORI: https://www.reference-midori.info/
 mkdir data/midori
@@ -48,34 +46,35 @@ mkdir refdb/florida
 date=$(date '+%Y-%m-%d')
 
 ## to csv
-{ echo "seqID,species,taxid,superkingdom,phylum,class,order,family,genus,species2,type,len,sequence,n_dupes,acc"; \
+{ echo "seqID,species,taxid,superkingdom,phylum,class,order,family,genus,species2"; \
 cat data/midori/crabs_midori-12S-subset.txt | tr '\t' ','; } > \
 refdb/florida/refdb_florida_fish_dl_"$date".csv
 
 
 ## to fasta
 awk -F'\t' 'BEGIN { OFS="" } NR > 1 \
-{ print ">" $1 " species=" $10 "; taxid=" $3 "; class=" $6 "; type=" $11 ";" "\n" $13 }' \
+{ print ">" $1 " species=" $10 "; taxid=" $3 "; class=" $6 ";" "\n" $11 }' \
 data/midori/crabs_midori-12S-subset.txt > \
 refdb/florida/refdb_florida_fish_dl_"$date".fasta
 
-
+# ------------------------------------------------------------------------------- #
 
 # Create blast database from reference db FASTA
 
 ## note need to add in taxononmy file to blastdb folder
 
 
-## also note, need to run the blast function from within this folder (huge bug in blastdb code)
 
 
-# Tabulate the MIDORI fasta file (we'll need it later)
-# Let's use R for this
+
+
+
+# ------------------------------------------------------------------------------- #
 
 
 # Run blast
 
-## we need to be inside of the blastdb directory to run blast properly
+## we need to be inside of the blastdb directory to run blast properly (huge bug in blastdb code)
 cd blastdb/dir
 
 ## run blast
