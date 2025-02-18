@@ -1,21 +1,67 @@
 
 
-# left off at having consensus sequences for each motu
+
+# Make quick reference database for Florida fishes
+
+## Get list of Fishes in Florida from GBIF
+## I will show you how to do this and will include the csv here
+
+## Download & unzip MIDORI: https://www.reference-midori.info/
+mkdir data/midori
+
+wget https://www.reference-midori.info/download/Databases/GenBank261_2024-06-15/RAW/uniq/MIDORI2_UNIQ_NUC_GB261_srRNA_RAW.fasta.gz \
+ -O data/midori/midori-12S.tar.gz
+
+gzip -d -c data/midori/midori-12S.tar.gz > \
+ data/midori/midori-12S.fasta
+
+
+## Filter MIDORI to fishes in Florida (using crabs)
+
+### Convert fasta to crabs format (tsv)
+### move to convert_midori_to_crabs.sh scripts folder
+
+#### first make sure it has linux based line endings (problem when creating code in windows)
+dos2unix scripts/convert_midori_to_crabs.sh 
+#### load in function
+source scripts/convert_midori_to_crabs.sh 
+
+#### run function
+convert_midori_to_crabs \
+ data/midori/midori-12S.fasta \
+ data/midori/crabs_midori-12S.txt
+
+
+### Run crabs filter (note crabs is already installed on annotate2 but you can also use an image I made: singularity build images/crabs.sif docker://olistr12/crabs:1.0.7)
+### Note: The --include and --exclude parameters can take in either a list of taxa separated by ; or a .txt file containing a single taxon name per line.
+### Note: move florida_fish.txt to data/florida_cf folder (or anywhere you want)
+crabs --subset \
+ --input  data/midori/crabs_midori-12S.txt \
+ --output  data/midori/crabs_midori-12S-subset.txt \
+ --include 'data/florida_cf/florida_fish.txt'
+
+
+## export as fasta and csv
+mkdir refdb
+mkdir refdb/florida
+
+date=$(date '+%Y-%m-%d')
+
+## to csv
+{ echo "seqID,species,taxid,superkingdom,phylum,class,order,family,genus,species2,type,len,sequence,n_dupes,acc"; \
+cat data/midori/crabs_midori-12S-subset.txt | tr '\t' ','; } > \
+refdb/florida/refdb_florida_fish_dl_"$date".csv
+
+
+## to fasta
+awk -F'\t' 'BEGIN { OFS="" } NR > 1 \
+{ print ">" $1 " species=" $10 "; taxid=" $3 "; class=" $6 "; type=" $11 ";" "\n" $13 }' \
+data/midori/crabs_midori-12S-subset.txt > \
+refdb/florida/refdb_florida_fish_dl_"$date".fasta
 
 
 
-# For the reference database, we will use MIDORI
-# MIDORI is a curated database of 12S, 16S, COI for eukaryotes
-
-# It's pretty good, there are better ways but they are way more involved so we'll leave that for another time
-
-
-# Download MIDORI: https://www.reference-midori.info/
-
-
-
-# create blast database from FASTA
-## note we could have just downloaded the blast database from MIDORI but it's good to know how to do this since fasta-->blastdb is a common task
+# Create blast database from reference db FASTA
 
 ## note need to add in taxononmy file to blastdb folder
 
