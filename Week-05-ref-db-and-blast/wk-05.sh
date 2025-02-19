@@ -38,6 +38,12 @@ crabs --subset \
  --output  data/midori/crabs_midori-12S-subset.txt \
  --include 'data/florida_cf/florida_fish.txt'
 
+### rm duplicates
+sort -t$'\t' -k1,1 -u \
+data/midori/crabs_midori-12S-subset.txt > \
+data/midori/crabs_midori-12S-subset.dd.txt
+
+
 
 ## export as fasta and csv
 mkdir refdb
@@ -47,26 +53,46 @@ date=$(date '+%Y-%m-%d')
 
 ## to csv
 { echo "seqID,species,taxid,superkingdom,phylum,class,order,family,genus,species2"; \
-cat data/midori/crabs_midori-12S-subset.txt | tr '\t' ','; } > \
+cat data/midori/crabs_midori-12S-subset.dd.txt | tr '\t' ','; } > \
 refdb/florida/refdb_florida_fish_dl_"$date".csv
 
 
 ## to fasta
 awk -F'\t' 'BEGIN { OFS="" } NR > 1 \
 { print ">" $1 " species=" $10 "; taxid=" $3 "; class=" $6 ";" "\n" $11 }' \
-data/midori/crabs_midori-12S-subset.txt > \
+data/midori/crabs_midori-12S-subset.dd.txt > \
 refdb/florida/refdb_florida_fish_dl_"$date".fasta
 
 # ------------------------------------------------------------------------------- #
 
 # Create blast database from reference db FASTA
 
-## note need to add in taxononmy file to blastdb folder
+mkdir blastdb
+mkdir blastdb/florida
+
+## generate a taxid map file for the blast database
+## this is a file that maps the taxid to the species name, needed for blast to assign taxonomy properly
+awk -F "[>;= ]" '/^>/{for(i=1; i<=NF; i++) if($i == "taxid") print $2, $(i+1)}' \
+"refdb/florida/refdb_florida_fish_dl_$date.fasta" > \
+"blastdb/florida/refdb_florida_fish_dl_$date.taxid.txt"
+
+## run makeblastdb function
+singularity exec images/blast.sif \
+    makeblastdb -in "refdb/florida/refdb_florida_fish_dl_$date.fasta" \
+    -parse_seqids \
+    -taxid_map "blastdb/florida/refdb_florida_fish_dl_$date.taxid.txt" \
+    -dbtype nucl \
+    -out "blastdb/florida/florida_blastdb/florida_blastdb"
 
 
+## need to add in ncbi taxononmy file to blastdb folder (in order for blast to assign taxonomy properly)
 
-
-
+### get taxonomy file
+wget https://ftp.ncbi.nlm.nih.gov/blast/db/taxdb.tar.gz
+### tar.gz file to directory
+tar -xvzf taxdb.tar.gz -C "blastdb/florida/florida_blastdb/"
+### rm taxdb.tar.gz (optional)
+rm taxdb.tar.gz
 
 
 # ------------------------------------------------------------------------------- #
@@ -75,17 +101,20 @@ refdb/florida/refdb_florida_fish_dl_"$date".fasta
 # Run blast
 
 ## we need to be inside of the blastdb directory to run blast properly (huge bug in blastdb code)
-cd blastdb/dir
+cd blastdb/florida/florida_blastdb/
 
 ## run blast
-singularity exec images/blast.sif \
-blastn -db midori_eukaryota_2021_02_25 \
--query ../../data/florida_cf/barcodes-04-10.q10.mifish_linked_unlinked.dd.att.fasta \
+singularity exec ../../../images/blast.sif \
+blastn -db florida_blastdb \
+-query ../../../data/florida_cf/vsearch/barcodes-04-10.q10.l300.L400.mifish_linked_unlinked.dd.con.sub.fasta \
 -outfmt "6 delim=, std qlen slen staxids sscinames scomnames sskingdoms" \
 -max_target_seqs 50 \
--out ../../data/florida_cf/barcodes-04-10.q10.mifish_linked_unlinked.dd.att.blastn.csv \
+-out ../../../data/florida_cf/vsearch/barcodes-04-10.q10.l300.L400.mifish_linked_unlinked.dd.con.sub.blastn.csv \
 -num_threads 8
 
 # look at the blast output
-# What do cols mean?
+# What do cols mean? https://www.metagenomics.wiki/tools/blast/blastn-output-format-6
 
+
+
+# ------------------------------------------------------------------------------- #

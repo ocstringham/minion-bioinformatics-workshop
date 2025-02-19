@@ -1,6 +1,6 @@
 # minion-bioinformatics-workshop
 
-Informal workshop led by Oliver Stringham presented to Julie Lockwood's eDNA lab (~5 people) about a bioinformatics pipeline for sequence data from a MinION sequencer. Oliver is giving weekly workshop presentation with accompanying code and we go through each step together. Oliver has made this repository public so that other people can access the material and learn from it. 
+Informal workshop led by Oliver Stringham presented to Julie Lockwood's eDNA lab (~5 people) about a bioinformatics pipeline for sequence data from a MinION sequencer. Oliver is giving weekly workshop presentation with accompanying code and we go through each step together. Oliver has made this repository public so that other people can access the material and learn from it.
 
 ## Topics Covered
 
@@ -8,7 +8,7 @@ Informal workshop led by Oliver Stringham presented to Julie Lockwood's eDNA lab
 * Week 2: Software Overview
 * Week 3: Concatenating Output FASTQ files, Quality Filtering, Length Filter, Trimming Primers
 * Week 4: Trimming ONT & Clustering Sequences to MOTUs
-* Week 5: BLAST
+* Week 5: Reference Database to BLAST
 
 ## Notes on other topics to potentially cover
 
