@@ -14,7 +14,8 @@ Informal workshop led by Oliver Stringham presented to Julie Lockwood's eDNA lab
 
 * Basecalling and demultiplexing in command line using Dorado
 * Github
+* Make a reference database the crab/slong/more comprehensive way (ie not just using Midori)
 * Create blast database (we will do)
 * Make a bash function
 * Make an r script a command line function
-* Make a reference database the long/more comprehensive way (ie not just using Midori)
+
