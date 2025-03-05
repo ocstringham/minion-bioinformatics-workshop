@@ -76,3 +76,31 @@ vsearch --threads 4 \
 --centroids data/florida_cf/vsearch/barcodes-04-10.q10.l300.L400.mifish_linked_unlinked.dd.cen.fasta \
 --consout data/florida_cf/vsearch/barcodes-04-10.q10.l300.L400.mifish_linked_unlinked.dd.con.fasta \
 --uc data/florida_cf/vsearch/barcodes-04-10.q10.l300.L400.mifish_linked_unlinked.dd.clusters.uc
+
+head data/florida_cf/vsearch/barcodes-04-10.q10.l300.L400.mifish_linked_unlinked.dd.con.fasta
+head data/florida_cf/vsearch/barcodes-04-10.q10.l300.L400.mifish_linked_unlinked.dd.clusters.uc
+
+## rm clusters with less than 5 reads
+singularity exec images/seqkit.sif \
+seqkit grep -r -n -p 'seqs=([6-9]|[1-9]\d+)$' \
+data/florida_cf/vsearch/barcodes-04-10.q10.l300.L400.mifish_linked_unlinked.dd.con.fasta \
+-o data/florida_cf/vsearch/barcodes-04-10.q10.l300.L400.mifish_linked_unlinked.dd.con.sub.fasta
+
+head data/florida_cf/vsearch/barcodes-04-10.q10.l300.L400.mifish_linked_unlinked.dd.con.sub.fasta
+
+singularity exec images/seqkit.sif \
+seqkit stats data/florida_cf/vsearch/barcodes-04-10.q10.l300.L400.mifish_linked_unlinked.dd.con.sub.fasta
+
+### tabulate
+singularity exec images/seqkit.sif \
+seqkit fx2tab -l data/florida_cf/vsearch/barcodes-04-10.q10.l300.L400.mifish_linked_unlinked.dd.con.sub.fasta \
+-o data/florida_cf/vsearch/barcodes-04-10.q10.l300.L400.mifish_linked_unlinked.dd.con.sub.txt
+
+
+tr ';' '\t' < \
+data/florida_cf/vsearch/barcodes-04-10.q10.l300.L400.mifish_linked_unlinked.dd.con.sub.txt | \
+sed 's/^centroid=//' | \
+awk -F'\t' '{OFS="\t"; print $1, $3}' > \
+data/florida_cf/vsearch/barcodes-04-10.q10.l300.L400.mifish_linked_unlinked.dd.con.sub2.txt
+
+# look at txt file manually
