@@ -44,6 +44,16 @@ data/midori/crabs_midori-12S-subset.txt > \
 data/midori/crabs_midori-12S-subset.dd.txt
 
 
+## rm rows with two or more Ns in sequence (11th column)
+# note this is kind of a hack ... I'll explain the real way to deal with this in person
+awk -F'\t' '$11 !~ /N{2,}/' \
+data/midori/crabs_midori-12S-subset.dd.txt > \
+data/midori/crabs_midori-12S-subset.dd.noN.txt
+
+
+
+
+
 
 ## export as fasta and csv
 mkdir refdb
@@ -53,14 +63,14 @@ date=$(date '+%Y-%m-%d')
 
 ## to csv
 { echo "seqID,species,taxid,superkingdom,phylum,class,order,family,genus,species2"; \
-cat data/midori/crabs_midori-12S-subset.dd.txt | tr '\t' ','; } > \
+cat data/midori/crabs_midori-12S-subset.dd.noN.txt | tr '\t' ','; } > \
 refdb/florida/refdb_florida_fish_dl_"$date".csv
 
 
 ## to fasta
 awk -F'\t' 'BEGIN { OFS="" } NR > 1 \
 { print ">" $1 " species=" $10 "; taxid=" $3 "; class=" $6 ";" "\n" $11 }' \
-data/midori/crabs_midori-12S-subset.dd.txt > \
+data/midori/crabs_midori-12S-subset.dd.noN.txt > \
 refdb/florida/refdb_florida_fish_dl_"$date".fasta
 
 # ------------------------------------------------------------------------------- #
