@@ -45,7 +45,7 @@ data/midori/crabs_midori-12S-subset.dd.txt
 
 
 ## rm rows with two or more Ns in sequence (11th column)
-# note this is kind of a hack ... I'll explain the real way to deal with this in person
+# how to do this in crabs https://github.com/gjeunen/reference_database_creator?tab=readme-ov-file#552---filter
 awk -F'\t' '$11 !~ /N{2,}/' \
 data/midori/crabs_midori-12S-subset.dd.txt > \
 data/midori/crabs_midori-12S-subset.dd.noN.txt
