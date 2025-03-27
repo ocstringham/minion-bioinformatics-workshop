@@ -1,12 +1,11 @@
 library(dplyr)
 library(tidyr)
 library(stringr)
-library(purrr)
-# library(data.table)
-# library(openxlsx)
-# library(argparse)
 
 # 1. Transfer over files to your computer: blast output, csv of local ref db
+# list them here
+# remind to install R/RStudio and above packages if not already installed
+# can also use AnnotateWin if don't want to use your computer
 
 
 # ---------------------------------------------------------------------------- #
