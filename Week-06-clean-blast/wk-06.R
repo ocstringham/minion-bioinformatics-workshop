@@ -60,7 +60,7 @@ library(stringr)   # For working with text strings (replacing text, matching pat
 # It compares our unknown sequences to a database of known sequences.
 
 # Path to the BLAST results file - update this if your file is in a different location
-blast_path = "~/../Downloads/florida_cf/barcodes-04-10.q10.l300.L400.mifish_linked_unlinked.dd.con.sub.blastn.csv"
+blast_path = "C://Users//olive//Downloads//florida_cf//barcodes-04-10.q10.l300.L400.mifish_linked_unlinked.dd.con.sub.blastn.csv"
 
 # Read the BLAST results into R - this loads the data into memory
 # header=F means the file doesn't have column names in the first row
@@ -93,7 +93,7 @@ blast$staxids = as.character(blast$staxids)
 # for each reference sequence.
 
 # Path to the reference database file
-taxa_key_path = "~/../Downloads/florida_cf/refdb_florida_fish_dl_2025-03-26.csv"
+taxa_key_path = "C://Users//olive//Downloads//florida_cf//refdb_florida_fish_dl_2025-03-26.csv"
 
 # Read the taxonomy reference database
 taxa_key = read.csv(taxa_key_path)
@@ -120,7 +120,7 @@ taxa_key1 =
 # This lets us know which fish were found in which sample.
 
 # Path to the barcode key file
-barcode_key_path = "~/../Downloads/florida_cf/barcodes-04-10.q10.l300.L400.mifish_linked_unlinked.dd.att.txt"
+barcode_key_path = "C://Users//olive//Downloads//florida_cf/barcodes-04-10.q10.l300.L400.mifish_linked_unlinked.dd.att.txt"
 
 # Read the barcode key file
 # sep = "\t" means it's a tab-delimited file
@@ -149,10 +149,10 @@ barcode_key1$barcode = str_replace_all(barcode_key1$barcode, "barcode=", "")
 # Clustering helps reduce redundancy by grouping nearly identical sequences.
 
 # Path to the cluster key file
-cluster_key_path = "~/../Downloads/florida_cf/barcodes-04-10.q10.l300.L400.mifish_linked_unlinked.dd.clusters.uc"
+cluster_key_path = "C://Users//olive/Downloads//florida_cf//barcodes-04-10.q10.l300.L400.mifish_linked_unlinked.dd.clusters.uc"
 
 # Read the cluster key file
-cluster_key = read.csv(cluster_key_path, sep = "\t")
+cluster_key = read.csv(cluster_key_path, sep = "\t", header=FALSE)
 
 # Assign column names according to the UC format
 # This is a standard format used by the USEARCH/VSEARCH clustering tools
