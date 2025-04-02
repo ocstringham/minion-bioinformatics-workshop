@@ -364,6 +364,11 @@ add_taxonomy = function(blastn_out2, taxa_key, custom_taxa_key){
     select(-scomnames, -sscinames, -sskingdoms) %>% 
     filter(!sseqid %in% custom_taxa_key2$seqID) %>%
     left_join(taxa_key_subset, by = c("staxids" = "tax_id"))
+
+  # set dtype sscinames of to character to avoid issues with dplyr::
+  blastn_out2t1$sscinames = as.character(blastn_out2t1$sscinames)
+  blastn_out2t2$sscinames = as.character(blastn_out2t2$sscinames)
+
   
   
   blastn_out2t = bind_rows(blastn_out2t1, blastn_out2t2)
