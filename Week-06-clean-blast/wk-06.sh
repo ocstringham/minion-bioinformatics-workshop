@@ -1,8 +1,7 @@
 
-
 # need to download blast_compile_results_CL.R and move it the scripts directory in Annoatate2
-
-# download ncbi_lineages_2025-01-08_fish.csv and move it to blastdb directory
+# download Fake_Sample_Sheet.xlsx and move it to data/florida_cf directory
+# download ncbi_lineages_2025-01-08_fish.csv and move it to blastdb/ directory
 
 # Download R image with packages installed
 singularity build images/r_env.sif docker://olistr12/r_env:0.0.7
@@ -17,7 +16,7 @@ Rscript scripts/blast_compile_results_CL.R \
 --barcode_key data/florida_cf/barcodes-04-10.q10.l300.L400.mifish_linked_unlinked.dd.att.txt \
 --conseq_key data/florida_cf/vsearch/barcodes-04-10.q10.l300.L400.mifish_linked_unlinked.dd.con.sub2.txt \
 --blast_results data/florida_cf/vsearch/barcodes-04-10.q10.l300.L400.mifish_linked_unlinked.dd.con.sub.blastn.csv \
---sample_key "$sample_key" \
+--sample_key data/florida_cf/Fake_Sample_Sheet.xlsx \
 --primer_name "MiFish" \
 --min_alignment_length 100 \
 --local_global "local" \
