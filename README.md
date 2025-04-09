@@ -9,12 +9,14 @@ Informal workshop led by Oliver Stringham presented to Julie Lockwood's eDNA lab
 * Week 3: Concatenating Output FASTQ files, Quality Filtering, Length Filter, Trimming Primers
 * Week 4: Trimming ONT & Clustering Sequences to MOTUs
 * Week 5: Reference Database to BLAST
+* Week 6: Clean BLAST & compile results
 
 ## Notes on other topics to potentially cover
 
 * Basecalling and demultiplexing in command line using Dorado
 * Github
-* Make a reference database the crab/long/more comprehensive way (ie not just using Midori)
+* Make a reference database the crab/long/more comprehensive way (ie not just using Midori) [do next]
 * Make a bash function
 * Make an r script a command line function
+* processing contaminants, negative controls, and positive controls
 
