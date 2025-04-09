@@ -247,7 +247,7 @@ cluster_lca =
   # Determine the lowest common ancestor taxonomy
   mutate(lca = case_when(
     # If there's only one species match, use the species name
-    n_species == 1 ~ species,
+    n_species == 1 ~ species2,
     # If there's only one genus but multiple species, use the genus name
     n_genus == 1 ~ genus,
     # If there's only one family but multiple genera, use the family name
@@ -294,7 +294,7 @@ cluster_lca =
 # So, if more than one taxa is in one cluster, we'll have all of them in one row.
 
 # Summarize BLAST matches by cluster
-blast_by_cluster = 
+blast_by_cluster =  
   blast_sub_taxonomy %>% 
   group_by(con_id) %>%
   summarise(
@@ -383,7 +383,7 @@ taxa_barcode =
     n_clusters = n(), 
     .groups = "drop"
   ) %>% 
-  ungroup() %>% 
+  ungroup() %>%
   # Rearrange columns to put important info first
   select(barcode, n_reads, n_clusters, everything()) %>% 
   # Sort by barcode and then by number of reads (descending)
