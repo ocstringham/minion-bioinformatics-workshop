@@ -2,7 +2,7 @@
 
 Informal workshop led by Oliver Stringham presented to Julie Lockwood's eDNA lab (~5 people) about a bioinformatics pipeline for sequence data from a MinION sequencer. Oliver is giving weekly workshop presentation with accompanying code and we go through each step together. Oliver has made this repository public so that other people can access the material and learn from it.
 
-For Weeks 3 through 6, the raw fastq data used can be found here: (https://github.com/ocstringham/minion-bioinformatics-workshop-data)[https://github.com/ocstringham/minion-bioinformatics-workshop-data] under the fastq folder.
+For Weeks 3 through 6, the raw fastq data used can be found here: [https://github.com/ocstringham/minion-bioinformatics-workshop-data](https://github.com/ocstringham/minion-bioinformatics-workshop-data) under the fastq folder.
 
 ## Topics Covered
 
