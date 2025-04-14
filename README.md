@@ -1,6 +1,8 @@
-# minion-bioinformatics-workshop
+# Minion Bioinformatics Workshop
 
 Informal workshop led by Oliver Stringham presented to Julie Lockwood's eDNA lab (~5 people) about a bioinformatics pipeline for sequence data from a MinION sequencer. Oliver is giving weekly workshop presentation with accompanying code and we go through each step together. Oliver has made this repository public so that other people can access the material and learn from it.
+
+For Weeks 3 through 6, the raw fastq data used can be found here: [https://github.com/ocstringham/minion-bioinformatics-workshop-data](https://github.com/ocstringham/minion-bioinformatics-workshop-data) under the fastq folder. There are 6 fastq files, 3 files per barcode, where the total size of all 6 files is 552 MB (~210 MB when zipped).
 
 ## Topics Covered
 
@@ -10,6 +12,7 @@ Informal workshop led by Oliver Stringham presented to Julie Lockwood's eDNA lab
 * Week 4: Trimming ONT & Clustering Sequences to MOTUs
 * Week 5: Reference Database to BLAST
 * Week 6: Clean BLAST & compile results
+* Week 7: Reference database creation overview
 
 ## Notes on other topics to potentially cover
 
