@@ -6,7 +6,7 @@ For Weeks 3 through 6, the raw fastq data used can be found here: [https://githu
 
 ## Topics Covered
 
-Part I: Processing reads from Minion Sequencer
+### Part I: Processing Reads from Minion Sequencer
 * Week 1: Bioinformatics Overview
 * Week 2: Software Overview
 * Week 3: Concatenating Output FASTQ files, Quality Filtering, Length Filter, Trimming Primers
@@ -14,7 +14,7 @@ Part I: Processing reads from Minion Sequencer
 * Week 5: Reference Database to BLAST
 * Week 6: Clean BLAST & Compile Results
 
-Part II: Local Reference Database Creation
+### Part II: Local Reference Database Creation
 * Week 7: Reference Database Creation Overview
 * Week 8: Getting a Local List of Species
 * Week 9: Downloading Reference Sequences
