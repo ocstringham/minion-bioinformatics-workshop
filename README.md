@@ -6,19 +6,25 @@ For Weeks 3 through 6, the raw fastq data used can be found here: [https://githu
 
 ## Topics Covered
 
+Part I: Processing reads from Minion Sequencer
 * Week 1: Bioinformatics Overview
 * Week 2: Software Overview
 * Week 3: Concatenating Output FASTQ files, Quality Filtering, Length Filter, Trimming Primers
 * Week 4: Trimming ONT & Clustering Sequences to MOTUs
 * Week 5: Reference Database to BLAST
-* Week 6: Clean BLAST & compile results
-* Week 7: Reference database creation overview
+* Week 6: Clean BLAST & Compile Results
+
+Part II: Local Reference Database Creation
+* Week 7: Reference Database Creation Overview
+* Week 8: Getting a Local List of Species
+* Week 9: Downloading Reference Sequences
+* Week 10: CRABS Workflow
+
 
 ## Notes on other topics to potentially cover
 
 * Basecalling and demultiplexing in command line using Dorado
 * Github
-* Make a reference database the crab/long/more comprehensive way (ie not just using Midori) [do next]
 * Make a bash function
 * Make an r script a command line function
 * processing contaminants, negative controls, and positive controls
