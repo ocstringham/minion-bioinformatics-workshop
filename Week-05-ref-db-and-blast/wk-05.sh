@@ -62,7 +62,7 @@ mkdir refdb/florida
 date=$(date '+%Y-%m-%d')
 
 ## to csv
-{ echo "seqID,species,taxid,superkingdom,phylum,class,order,family,genus,species2"; \
+{ echo "seqID,species,taxid,superkingdom,phylum,class,order,family,genus,species2,sequence"; \
 cat data/midori/crabs_midori-12S-subset.dd.noN.txt | tr '\t' ','; } > \
 refdb/florida/refdb_florida_fish_dl_"$date".csv
 
